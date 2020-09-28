@@ -4,15 +4,21 @@ class Cli
  def call 
    puts "Welcome to Pet Match! Thank you for showing interest in these animals!"
    puts "We would like to connect you with a new addition to your family."
-   #puts "What page would you like to see?"
-   Scraper.scrape_site
-   list_animals
+   page_choice
  end
+
+def page_choice
+  puts "What page would you like to see?"
+  puts "Please make a choice between 1 and 10"
+  page_sel = gets.strip
+  Scraper.page_selection(page_sel)
+  list_animals
+end
+
+
  def list_animals 
    Pet.all.each.with_index(1) do |pet,i|
-  
      puts "#{i}. #{pet.name} - #{pet.building}"
-    
    end 
    choose_pet
  end 
@@ -28,20 +34,18 @@ class Cli
     pet = Pet.all[input.to_i-1]
     about_this_pet(pet)
   end 
-  puts "Do you feel like your home is the right fit for #{Pet.name}?"
+  puts "Do you feel like your home is the right fit for #{pet.name}?"
   puts "Enter Y or N"
     answer = gets.strip.downcase
   if answer == "y"
-    puts "Great! Please cal 210-655-1481 to set up a visit!"
+    puts "Great! Please call 210-655-1481 to set up a visit!"
     exit 
   elsif answer == "n"
     puts "Lets keep looking.."
-  list_animals
-  choose_pet 
+    page_choice
   else 
-     puts "Whoopsies! it looks like you made an invalid selection. Please try again"
-     list_animals
-     choose_pet
+    puts "Whoopsies! it looks like you made an invalid selection. Please try again"
+    page_choice
 end
 end
 
@@ -55,4 +59,3 @@ def about_this_pet(pet)
 end
 
 end
-  
